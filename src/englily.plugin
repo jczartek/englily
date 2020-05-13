@@ -1,0 +1,5 @@
+[Plugin]
+Module=englily
+Name=Englily
+Description=The Oxford-PWN polish-english english-polish dictionary
+Authors=Jakub Czartek

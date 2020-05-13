@@ -1,0 +1,10 @@
+<schemalist gettext-domain="englily">
+  <schema id="com.github.jczartek.englily" path="/com/github/jczartek/englily/">
+    <key name="eng-pl-path" type="s">
+      <default>""</default>
+    </key>
+    <key name="pl-eng-path" type="s">
+      <default>""</default>
+    </key>
+  </schema>
+</schemalist>

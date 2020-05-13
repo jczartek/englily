@@ -1,0 +1,55 @@
+/* englily-config.vala
+ *
+ * Copyright 2020 Jakub Czartek <kuba@linux.pl>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+namespace Englily {
+
+  public errordomain ConfError {
+    SCHEMA_NOT_FOUND
+  }
+
+  public class Config {
+    private const string schema_dir = "@schemadir@";
+    private const string schema_id = "com.github.jczartek.englily";
+    private const string schema_path = "/com/github/jczartek/englily/";
+    private static Settings? settings = null;
+    private static bool is_configured = false;
+
+    private static void configure_settings() throws Error, ConfError {
+      if (settings == null) {
+        var schema_source = new SettingsSchemaSource.from_directory (schema_dir, null, false);
+        var schema = schema_source.lookup (schema_id, false);
+
+        if (schema == null)
+          throw new ConfError.SCHEMA_NOT_FOUND("Can't find the settings schema. Schema id: %s is not correct.", schema_id);
+
+        settings = new Settings.full (schema, null, schema_path);
+
+        is_configured = true;
+      }
+    }
+
+    public static string get_path(string key) throws Error, ConfError {
+      if (!is_configured)
+        configure_settings();
+
+      return settings.get_string(key);
+    }
+  }
+}
