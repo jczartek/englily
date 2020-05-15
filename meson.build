@@ -9,23 +9,24 @@ datadir   = join_paths(get_option('prefix'), get_option('datadir'), 'gydict', 'p
 schemadir = join_paths(get_option('prefix'), get_option('datadir'), 'glib-2.0', 'schemas')
 moduledir = join_paths(get_option('prefix'), 'lib')
 
-cc = meson.get_compiler('c')
-vapi_dir = '/opt/gydict/share/vala/vapi'
-add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
+libgydict_dep = dependency('libgydict-1.0', required: true)
+
+vapidir = libgydict_dep.get_pkgconfig_variable('vapidir')
+add_project_arguments(['--vapidir', vapidir], language: 'vala')
 
 deps = [
   dependency('gio-2.0', version: '>= 2.50'),
   dependency('gtk+-3.0', version: '>= 3.24'),
-  dependency('libgydict-1.0'),
+  libgydict_dep,
   dependency('libpeas-1.0', version: '>= 1.22.0'),
   dependency('libdazzle-1.0', version: '>= 3.26.0'),
-  cc.find_library('z', required: true),
+  dependency('zlib', version: '>= 1.2.0'),
 ]
 
 subdir('data')
 subdir('src')
 
-meson.add_install_script ('data//post-install.sh')
+meson.add_install_script ('data/post-install.sh')
 
 status = [
   '',
