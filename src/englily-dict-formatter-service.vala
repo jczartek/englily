@@ -1,4 +1,4 @@
-/* englily-app.vala
+/* englily-dict-formatter-service.vala
  *
  * Copyright 2020 Jakub Czartek <kuba@linux.pl>
  *
@@ -21,12 +21,16 @@
 using Gy;
 
 namespace Englily {
-  public class AppAddinImpl : Object, AppAddin {
 
-    public void load(App app) {
+  class DictFormatterServiceImpl: Object, Service, DictFormatterService {
+    public string service_id { get; private set; }
+
+    public FormatScheme? format (string text_to_format) {
+      return null;
     }
 
-    public void unload(App app) {
+    public unowned string get_service_id() {
+      return service_id;
     }
   }
 }

@@ -18,23 +18,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Gtk;
+using Gy;
+
 namespace Englily {
-  public class DictServiceImpl : Object, Gy.Service, Gy.DictService {
+  public class DictServiceImpl : Object, Service, DictService {
 
     public string service_id { get; private set; }
 
-    private Gtk.TreeModel model;
+    private TreeModel model;
 
     public DictServiceImpl(string service_id) {
       this.service_id = service_id;
     }
 
-    public unowned Gtk.TreeModel get_model() {
+    public unowned TreeModel get_model() {
       return model;
-    }
-
-    public Gy.DictDataScheme? parse(string text_to_parse) {
-      return null;
     }
 
     public string get_lexical_unit(uint idx) {

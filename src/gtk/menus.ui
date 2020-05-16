@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="dict-menu">
+    <section id="englily-menu-section">
+      <attribute name="label" translatable="yes">Oxford-PWN Dictionary 2007</attribute>
+      <item>
+        <attribute name="label" translatable="yes">English-Polish</attribute>
+        <attribute name="action">win.switch-dict</attribute>
+        <attribute name="target">englily-dictionary-english-polish</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Polish-English</attribute>
+        <attribute name="action">win.switch-dict</attribute>
+        <attribute name="target">englily-dictionary-polish-english</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>

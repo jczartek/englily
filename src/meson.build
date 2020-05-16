@@ -8,14 +8,23 @@ configuration = configure_file(
     configuration: local_config
 )
 
+gnome = import('gnome')
+resources = gnome.compile_resources(
+  'englily-resource',
+  'englily.gresource.xml',
+)
+
 sources = [
   'englily.vala',
   'englily-app.vala',
   'englily-win.vala',
   'englily-prefs.vala',
    configuration,
+  'englily-dict-formatter-service.vala',
   'englily-dict-service.vala',
 ]
+
+sources += resources
 
 
 lib = shared_library('englily', sources,

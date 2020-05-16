@@ -18,5 +18,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Gy;
+
 namespace Englily {
+  public class WinAddinImpl : Object, WindowAddin {
+    private uint menu_id = 0;
+
+    public void load(Window win) {
+      try {
+        menu_id = win.add_menu_by_resource("/plugin/englily/gtk/menus.ui");
+      }
+      catch (Error e) {
+        critical("Error: %s\n", e.message);
+      }
+    }
+
+    public void unload(Window win) {
+      if (menu_id != 0) {
+        win.remove_menu(menu_id);
+      }
+    }
+  }
 }
