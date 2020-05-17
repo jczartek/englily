@@ -5,12 +5,12 @@
       <attribute name="label" translatable="yes">Oxford-PWN Dictionary 2007</attribute>
       <item>
         <attribute name="label" translatable="yes">English-Polish</attribute>
-        <attribute name="action">win.switch-dict</attribute>
+        <attribute name="action">win.set-dict-service</attribute>
         <attribute name="target">englily-dictionary-english-polish</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Polish-English</attribute>
-        <attribute name="action">win.switch-dict</attribute>
+        <attribute name="action">win.set-dict-service</attribute>
         <attribute name="target">englily-dictionary-polish-english</attribute>
       </item>
     </section>

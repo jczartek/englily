@@ -22,15 +22,10 @@ using Gy;
 
 namespace Englily {
 
-  class DictFormatterServiceImpl: Object, Service, DictFormatterService {
-    public string service_id { get; private set; }
+  class DictFormatterServiceImpl: Object, DictFormatter {
 
     public FormatScheme? format (string text_to_format) {
       return null;
-    }
-
-    public unowned string get_service_id() {
-      return service_id;
     }
   }
 }

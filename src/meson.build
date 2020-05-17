@@ -20,7 +20,7 @@ sources = [
   'englily-win.vala',
   'englily-prefs.vala',
    configuration,
-  'englily-dict-formatter-service.vala',
+  'englily-dict-formatter.vala',
   'englily-dict-service.vala',
 ]
 
