@@ -22,6 +22,7 @@ sources = [
    configuration,
   'englily-dict-formatter.vala',
   'englily-dict-service.vala',
+  'englily-helper.vala',
 ]
 
 sources += resources

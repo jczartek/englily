@@ -20,6 +20,7 @@ deps = [
   libgydict_dep,
   dependency('libpeas-1.0', version: '>= 1.22.0'),
   dependency('libdazzle-1.0', version: '>= 3.26.0'),
+  dependency('gee-0.8', version: '>= 0.20.0'),
   dependency('zlib', version: '>= 1.2.0'),
 ]
 
