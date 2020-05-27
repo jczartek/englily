@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <menu id="dict-menu">
+  <menu id="service-menu">
     <section id="englily-menu-section">
       <attribute name="label" translatable="yes">Oxford-PWN Dictionary 2007</attribute>
       <item>
