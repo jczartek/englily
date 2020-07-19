@@ -23,7 +23,6 @@ using Gee;
 namespace Englily {
   public class Helper {
     private static HashMap<string, string> symbols = null;
-
     private static void initialize_symbols() {
       symbols = new HashMap<string, string>();
       symbols["&IPA502"] = "ˌ";
@@ -189,6 +188,12 @@ namespace Englily {
         critical("Can't find a symbol for %s key!", key);
 
       return symbol;
+    }
+
+    public static string get_superscript(int c) requires(c >= 0 && c <= 9)
+    {
+      string[] superscript = {"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" };
+      return superscript[c];
     }
   }
 }

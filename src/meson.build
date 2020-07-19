@@ -23,6 +23,8 @@ sources = [
   'englily-dict-formatter.vala',
   'englily-dict-service.vala',
   'englily-helper.vala',
+  'englily-string-iterator.vala',
+  'englily-list-parser.vala',
 ]
 
 sources += resources

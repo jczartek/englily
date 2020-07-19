@@ -51,6 +51,7 @@ namespace Englily {
       TreeIter iter;
       string word;
       MatchInfo match_info;
+      ListParser list_parser = new ListParser();
       foreach(var offset in offsets) {
         data_stream.seek(offset+0x03, SET);
         magic = data_stream.read_uint16();
@@ -58,14 +59,10 @@ namespace Englily {
         if (magic == 0x1147 || magic == 0x1148) {
           data_stream.seek(0x07, CUR);
           word = GLib.convert(data_stream.read_line(), -1, "UTF-8", "ISO8859-2");
-
-          if(/&[^;]+;/.match(word, 0, out match_info)) {
-            foreach(var item in match_info.fetch_all())
-              stdout.printf("%s \n", Helper.get_html_symbol(item[0:-1]));
-          }
-
+          list_parser.string_to_parse = word;
+          list_parser.parse();
           model.append(out iter);
-          model.@set(iter, 0, word, -1);
+          model.@set(iter, 0, list_parser.to_string(), -1);
         }
       }
     }
