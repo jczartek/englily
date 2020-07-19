@@ -18,15 +18,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using Gy;
+using Gydict;
 
 namespace Englily {
   public class AppAddinImpl : Object, AppAddin {
-
+    private DictService english_polish_dict_service = new DictServiceImpl("englily-dictionary-english-polish");
+    private DictService polish_english_dict_service = new DictServiceImpl("englily-dictionary-polish-english");
     public void load(App app) {
+      var provider = app.get_service_provider();
+      provider.register_service(english_polish_dict_service);
+      provider.register_service(polish_english_dict_service);
     }
 
     public void unload(App app) {
+      var provider = app.get_service_provider();
+      provider.unregister_service(polish_english_dict_service);
+      provider.unregister_service(english_polish_dict_service);
     }
   }
 }

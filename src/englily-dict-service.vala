@@ -19,16 +19,13 @@
  */
 
 using Gtk;
-using Gy;
+using Gydict;
 using Gee;
-
 
 namespace Englily {
   public class DictServiceImpl : Object, Service, DictService {
-
-    public string service_id { get; private set; }
-
-    private TreeModel? model;
+    public string service_id {get; set;}
+    private Gtk.ListStore model = null;
     private DataInputStream data_stream;
     private ArrayList<uint32> offsets = new ArrayList<uint32> ();
 
@@ -41,15 +38,39 @@ namespace Englily {
       if (model == null) {
         create_tree_model();
       }
-      return model;
+      return (model as TreeModel);
     }
 
     private void create_tree_model() throws Error {
-      open_read_stream();
+      open_stream();
       set_offsets();
+
+      model = new Gtk.ListStore(1, typeof(string));
+
+      uint16 magic = 0;
+      TreeIter iter;
+      string word;
+      MatchInfo match_info;
+      foreach(var offset in offsets) {
+        data_stream.seek(offset+0x03, SET);
+        magic = data_stream.read_uint16();
+
+        if (magic == 0x1147 || magic == 0x1148) {
+          data_stream.seek(0x07, CUR);
+          word = GLib.convert(data_stream.read_line(), -1, "UTF-8", "ISO8859-2");
+
+          if(/&[^;]+;/.match(word, 0, out match_info)) {
+            foreach(var item in match_info.fetch_all())
+              stdout.printf("%s \n", Helper.get_html_symbol(item[0:-1]));
+          }
+
+          model.append(out iter);
+          model.@set(iter, 0, word, -1);
+        }
+      }
     }
 
-    private void open_read_stream() throws Error {
+    private void open_stream() throws Error {
       string key = service_id == "englily-dictionary-english-polish"
                                  ? "eng-pl-path"
                                  : "pl-eng-path";
@@ -77,6 +98,10 @@ namespace Englily {
         offset = (data_stream.read_uint32() & 0x07ffffff) + base_index_words;
         offsets.add(offset);
       }
+    }
+
+    private string? format(string? raw_string) {
+      return null;
     }
 
     public string get_lexical_unit(uint idx) {

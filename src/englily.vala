@@ -21,8 +21,8 @@
 
 [ModuleInit]
 public void peas_register_types(Peas.ObjectModule module) {
-  module.register_extension_type(typeof (Gy.AppAddin), typeof (Englily.AppAddinImpl));
-  module.register_extension_type(typeof (Gy.WindowAddin), typeof(Englily.WinAddinImpl));
+  module.register_extension_type(typeof (Gydict.AppAddin), typeof (Englily.AppAddinImpl));
+  module.register_extension_type(typeof (Gydict.WindowAddin), typeof(Englily.WinAddinImpl));
 }
 
 

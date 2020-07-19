@@ -179,7 +179,7 @@ namespace Englily {
       symbols["&ndotbl.x"] = "n̩";
     }
 
-    public static string get_symbol(string key) {
+    public static string get_html_symbol(string key) {
       if (symbols == null)
         initialize_symbols();
 
