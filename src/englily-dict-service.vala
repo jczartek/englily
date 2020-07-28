@@ -50,7 +50,6 @@ namespace Englily {
       uint16 magic = 0;
       TreeIter iter;
       string word;
-      MatchInfo match_info;
       ListParser list_parser = new ListParser();
       foreach(var offset in offsets) {
         data_stream.seek(offset+0x03, SET);
@@ -97,12 +96,41 @@ namespace Englily {
       }
     }
 
-    private string? format(string? raw_string) {
-      return null;
-    }
+    public string get_lexical_unit(uint idx) throws Error requires (idx <= offsets.size) {
+      const int MaxLen = 1024 * 90;
+      const int Offset = 12;
+      uint8[] out_buffer;
+      data_stream.seek(this.offsets[(int)idx], SET);
 
-    public string get_lexical_unit(uint idx) {
-      return "";
+      var data = (data_stream as InputStream).read_bytes(MaxLen);
+
+      int count_bytes = 0;
+      for (int i = Offset; i < MaxLen; i++)
+      {
+        if (data.get(i) == '\0') break;
+        count_bytes++;
+      }
+      var index = Offset + count_bytes + 2;
+
+      if (data.get(index) < 20)
+      {
+        var converter = new ZlibDecompressor (ZLIB);
+        out_buffer = new uint8[MaxLen];
+        size_t bytes_read;
+        size_t bytes_write;
+
+        index += data.get(index) + 1;
+        converter.convert(data.get_data()[index:MaxLen-1], 
+                         out_buffer, NONE, 
+                         out bytes_read,
+                         out bytes_write);
+      }
+      else
+      {
+        out_buffer = data.get_data()[index:MaxLen-1];
+      }
+      
+      return GLib.convert((string)out_buffer, -1, "UTF-8", "ISO8859-2");
     }
 
     public unowned string get_service_id() {
