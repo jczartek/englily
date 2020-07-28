@@ -43,7 +43,6 @@ namespace Englily {
 
     private void create_tree_model() throws Error {
       open_stream();
-      set_offsets();
 
       model = new Gtk.ListStore(1, typeof(string));
 
@@ -51,7 +50,7 @@ namespace Englily {
       TreeIter iter;
       string word;
       ListParser list_parser = new ListParser();
-      foreach(var offset in offsets) {
+      foreach(var offset in fix_offsets()) {
         data_stream.seek(offset+0x03, SET);
         magic = data_stream.read_uint16();
 
@@ -60,6 +59,7 @@ namespace Englily {
           word = GLib.convert(data_stream.read_line(), -1, "UTF-8", "ISO8859-2");
           list_parser.string_to_parse = word;
           list_parser.parse();
+          offsets.add(offset);
           model.append(out iter);
           model.@set(iter, 0, list_parser.to_string(), -1);
         }
@@ -78,7 +78,9 @@ namespace Englily {
       data_stream.byte_order = LITTLE_ENDIAN;
     }
 
-    private void set_offsets() throws Error requires(data_stream is DataInputStream) {
+    private ArrayList<uint32> fix_offsets() throws Error
+    {
+      var fixed_offsets = new ArrayList<uint32>();
 
       uint32 number_of_words, base_index, base_index_words;
       number_of_words = base_index = base_index_words = 0;
@@ -92,8 +94,10 @@ namespace Englily {
 
       for(uint32 i = 0, offset = 0; i < number_of_words; i++) {
         offset = (data_stream.read_uint32() & 0x07ffffff) + base_index_words;
-        offsets.add(offset);
+        fixed_offsets.add(offset);
       }
+
+      return fixed_offsets;
     }
 
     public string get_lexical_unit(uint idx) throws Error requires (idx <= offsets.size) {
