@@ -27,5 +27,9 @@ namespace Englily {
     public FormatScheme? format (string text_to_format) {
       return null;
     }
+
+    public static DictFormatter create() {
+      return new DictFormatterServiceImpl ();
+    }
   }
 }
