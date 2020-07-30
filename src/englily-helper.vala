@@ -190,10 +190,27 @@ namespace Englily {
       return symbol;
     }
 
-    public static string get_superscript(int c) requires(c >= 0 && c <= 9)
+    private static HashMap<char,string> superscripts = null;
+
+    private static void initialize_superspript()
     {
-      string[] superscript = {"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" };
-      return superscript[c];
+      superscripts = new HashMap<char,string>();
+      superscripts['0'] = "⁰";
+      superscripts['1'] = "¹";
+      superscripts['2'] = "²";
+      superscripts['3'] = "³";
+      superscripts['4'] = "⁴";
+      superscripts['5'] = "⁵";
+      superscripts['6'] = "⁶";
+      superscripts['7'] = "⁷";
+      superscripts['8'] = "⁸";
+      superscripts['9'] = "⁹";
+    }
+
+    public static string get_superscript(char c) requires(c >= '0' && c <= '9')
+    {
+      if (superscripts == null) initialize_superspript();
+      return superscripts[c];
     }
   }
 }

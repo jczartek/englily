@@ -130,7 +130,7 @@ namespace Englily {
         }
         else if(iter.current.isdigit())
         {
-          var ss = Helper.get_superscript((int) iter.current - 48);
+          var ss = Helper.get_superscript((char) iter.current);
           list_parser.builder.append(ss);
         }
       }
