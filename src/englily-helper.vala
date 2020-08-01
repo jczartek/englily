@@ -184,8 +184,9 @@ namespace Englily {
 
       var symbol = symbols[key];
 
-      if (symbol == null)
-        critical("Can't find a symbol for %s key!", key);
+      if (symbol == null) {
+        return "<unknown>";
+      }
 
       return symbol;
     }

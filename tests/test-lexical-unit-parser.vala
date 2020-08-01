@@ -27,6 +27,7 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit as symbols", test_parse_lexical_unit_as_symbols);
     add_test("[LexicalUnitParser] parse lexical unit as symbols surrounded by text", test_parse_lexical_unit_as_symbols_surrounded_by_text);
     add_test("[LexicalUnitParser] parse lexical unit as symbols interspersed with text", test_parse_lexical_unit_as_symbols_interspersed_with_text);
+    add_test("[LexicalUnitParser] parse lexical unit as unknown symbol", test_parse_lexical_unit_as_unknown_symbol);
   }
   
   public void test_parse_raw_text() {
@@ -74,6 +75,17 @@ public class LexicalUnitParserTests : TestCase {
   public void test_parse_lexical_unit_as_symbols_interspersed_with_text() {
     const string input = "xxx&##9553;xyz&oboczn;xyz&##1100;xyz&##1098;xyz&s172;xyz&ytilde;xxx";
     const string expected = "xxx║xyz║xyzьxyzъxyz←xyzỹxxx";
+
+    var parser = new Englily.LexicalUnitParser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_as_unknown_symbol() {
+    const string input = "&unknownSymbol;";
+    const string expected = "<unknown>";
 
     var parser = new Englily.LexicalUnitParser(input); 
     parser.parse();
