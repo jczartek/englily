@@ -22,14 +22,16 @@ using Gydict;
 
 namespace Englily {
 
-  class DictFormatterServiceImpl: Object, DictFormatter {
+  class DictFormatterImpl: Object, DictFormatter {
 
     public FormatScheme? format (string text_to_format) {
-      return null;
+      var scheme = new FormatScheme();
+      scheme.append_text(text_to_format);
+      return scheme;
     }
 
     public static DictFormatter create() {
-      return new DictFormatterServiceImpl ();
+      return new DictFormatterImpl ();
     }
   }
 }
