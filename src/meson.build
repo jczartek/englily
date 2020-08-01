@@ -40,7 +40,8 @@ lib = shared_library('englily', sources,
 static_lib_sources = [
   'englily-string-iterator.vala',
   'englily-lexical-unit-parser.vala',
-  'englily-lexical-unit-parser-states.vala'
+  'englily-lexical-unit-parser-states.vala',
+  'englily-helper.vala'
 ]
 
 

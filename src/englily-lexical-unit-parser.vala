@@ -41,6 +41,7 @@ namespace Englily {
       states = new HashMap<State, IState>();
       states[State.End] = new EndStateParser(this);
       states[State.Text] = new TextStateParser(this);
+      states[State.Symbol] = new SymbolStateParser(this);
     }
 
     public void parse()

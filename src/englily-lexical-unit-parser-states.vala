@@ -18,7 +18,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-using GLib;
 using Gydict;
 
 namespace Englily {
@@ -27,8 +26,8 @@ namespace Englily {
     End,
     Err,
     Text,
-    SYMBOL,
-    TAG
+    Symbol,
+    Tag
   }
 
   public interface IState : Object {
@@ -62,16 +61,52 @@ namespace Englily {
 
     public override void parse()
     {
+      this.parser.current_state = End;
       while (iterator.next())
       {
         if (iterator.current == '<')
           this.parser.current_state = End;
         else if (iterator.current == '&')
-          this.parser.current_state = End;
+        {
+          this.parser.current_state = Symbol;
+          break;
+        }
         else
           scheme.append_unichar(iterator.current);
       }
-      this.parser.current_state = End;
+      
+    }
+  }
+
+  public class SymbolStateParser : BaseState
+  {
+    public SymbolStateParser(LexicalUnitParser parser)
+    {
+      base(Symbol, parser);
+    }
+
+    private string extract_html_symbol() {
+      
+      var builder = new StringBuilder();
+      unichar c = iterator.current;
+
+      while (iterator.next() && c != ';') {
+        builder.append_unichar(c);
+        c = iterator.current;
+      }
+
+      return builder.str;
+    }
+
+    private void add_symbol_to_scheme(string html_symbol) {
+      string symbol = Helper.get_html_symbol(html_symbol);
+      scheme.append_text(symbol);
+    }
+
+    public override void parse() {
+     var html_symbol = extract_html_symbol();
+     add_symbol_to_scheme(html_symbol);
+     this.parser.current_state = Text;
     }
   }
 

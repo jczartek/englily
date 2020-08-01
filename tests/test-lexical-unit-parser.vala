@@ -18,23 +18,31 @@
 * SPDX-License-Identifier: GPL-3.0-or-later
 */
 
-public class LexicalUnitParserTests : TestCase
-{
-  public LexicalUnitParserTests()
-  {
+public class LexicalUnitParserTests : TestCase {
+  public LexicalUnitParserTests() {
     base("LexicalUnitParser");
     
     add_test("[LexicalUnitParser] parse raw text", test_parse_raw_text);
+    add_test("[LexicalUnitParser] parse text as symbol html", test_parse_lexical_unit_as_symbol);
   }
   
-  public void test_parse_raw_text()
-  {
+  public void test_parse_raw_text() {
     var parser = new Englily.LexicalUnitParser("raw text");
     parser.parse();
     
     var lexical_unit = parser.scheme.get_lexical_unit();
     
     assert(lexical_unit == "raw text");
+  }
+
+  public void test_parse_lexical_unit_as_symbol() {
+    const string input = "&dollar;";
+    var parser = new Englily.LexicalUnitParser(input);
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+
+    assert("$" == lexical_unit);
   }
   
 }
