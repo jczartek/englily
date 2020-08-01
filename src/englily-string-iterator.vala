@@ -37,6 +37,11 @@ namespace Englily {
 
     private int iter = 0;
 
+    public StringIterator.with_string(string str)
+    {
+      this.str = str;
+    }
+
     public bool next()
     {
       return str.get_next_char(ref iter, out _current);
