@@ -61,20 +61,17 @@ namespace Englily {
 
     public override void parse()
     {
-      this.parser.current_state = End;
-      while (iterator.next())
-      {
-        if (iterator.current == '<')
-          this.parser.current_state = End;
-        else if (iterator.current == '&')
-        {
+      do {
+        if (iterator.current == '<') {
+          assert_not_reached ();
+        } else if (iterator.current == '&') {
           this.parser.current_state = Symbol;
-          break;
-        }
-        else
+          return;
+        } else {
           scheme.append_unichar(iterator.current);
-      }
-      
+        }
+      } while (iterator.next());
+      this.parser.current_state = End;
     }
   }
 

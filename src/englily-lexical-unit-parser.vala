@@ -32,10 +32,11 @@ namespace Englily {
     public HashMap<State, IState> states { get; private set; }
     public State current_state { get; set; }
 
-    public LexicalUnitParser(string unparse_lexical_unit)
+    public LexicalUnitParser(string unparse_lexical_unit) requires(unparse_lexical_unit != "")
     {
       scheme = new FormatScheme();
       iterator = new StringIterator.with_string(unparse_lexical_unit);
+      iterator.next();
       current_state = State.Text;
 
       states = new HashMap<State, IState>();

@@ -22,8 +22,9 @@ public class LexicalUnitParserTests : TestCase {
   public LexicalUnitParserTests() {
     base("LexicalUnitParser");
     
-    add_test("[LexicalUnitParser] parse raw text", test_parse_raw_text);
-    add_test("[LexicalUnitParser] parse text as symbol html", test_parse_lexical_unit_as_symbol);
+    add_test("[LexicalUnitParser] parse lexical unit as raw text", test_parse_raw_text);
+    add_test("[LexicalUnitParser] parse lexical unit as symbol html", test_parse_lexical_unit_as_symbol);
+    add_test("[LexicalUnitParser] parse lexical unit as symbols", test_parse_lexical_unit_as_symbols);
   }
   
   public void test_parse_raw_text() {
@@ -43,6 +44,17 @@ public class LexicalUnitParserTests : TestCase {
     var lexical_unit = parser.scheme.get_lexical_unit();
 
     assert("$" == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_as_symbols() {
+    const string input = "&##9553;&oboczn;&##1100;&##1098;&s172;&ytilde;";
+    const string expected = "║║ьъ←ỹ";
+    var parser = new Englily.LexicalUnitParser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    message(lexical_unit);
+    assert(expected == lexical_unit);
   }
   
 }
