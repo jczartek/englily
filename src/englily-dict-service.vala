@@ -142,7 +142,7 @@ namespace Englily {
     }
 
     public DictFormatter get_formatter() {
-      return DictFormatterServiceImpl.create();
+      return DictFormatterImpl.create();
     }
   }
 }
