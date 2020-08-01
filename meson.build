@@ -14,6 +14,13 @@ libgydict_dep = dependency('libgydict-1.0', required: true)
 vapidir = libgydict_dep.get_pkgconfig_variable('vapidir')
 add_project_arguments(['--vapidir', vapidir], language: 'vala')
 
+# Add our custom VAPI dir
+add_project_arguments(
+  ['--vapidir', meson.source_root() / 'vapi'],
+  '--disable-since-check',
+  language: 'vala'
+)
+
 deps = [
   dependency('gio-2.0', version: '>= 2.50'),
   dependency('gtk+-3.0', version: '>= 3.24'),
@@ -26,6 +33,7 @@ deps = [
 
 subdir('data')
 subdir('src')
+subdir('tests')
 
 meson.add_install_script ('data/post-install.sh')
 
