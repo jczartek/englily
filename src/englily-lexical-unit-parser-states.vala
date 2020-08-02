@@ -63,7 +63,8 @@ namespace Englily {
     {
       do {
         if (iterator.current == '<') {
-          assert_not_reached ();
+          this.parser.current_state = Tag;
+          return;
         } else if (iterator.current == '&') {
           this.parser.current_state = Symbol;
           return;
@@ -116,6 +117,24 @@ namespace Englily {
 
     public override void parse()
     {
+    }
+  }
+
+  public class TagStateParser : BaseState
+  {
+    public TagStateParser(LexicalUnitParser parser)
+    {
+      base(Tag, parser);
+    }
+
+    public override void parse()
+    {
+      unichar c = iterator.current;
+      while(iterator.next() && c != '>')
+      {
+        c = iterator.current;
+      }
+      this.parser.current_state = Text;
     }
   }
 }

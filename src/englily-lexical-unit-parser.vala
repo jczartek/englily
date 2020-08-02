@@ -43,6 +43,7 @@ namespace Englily {
       states[State.End] = new EndStateParser(this);
       states[State.Text] = new TextStateParser(this);
       states[State.Symbol] = new SymbolStateParser(this);
+      states[State.Tag] = new TagStateParser(this);
     }
 
     public void parse()

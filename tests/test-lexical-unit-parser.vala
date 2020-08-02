@@ -28,6 +28,8 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit as symbols surrounded by text", test_parse_lexical_unit_as_symbols_surrounded_by_text);
     add_test("[LexicalUnitParser] parse lexical unit as symbols interspersed with text", test_parse_lexical_unit_as_symbols_interspersed_with_text);
     add_test("[LexicalUnitParser] parse lexical unit as unknown symbol", test_parse_lexical_unit_as_unknown_symbol);
+    add_test("[LexicalUnitParser] parse lexical unit with a formatting tag", test_parse_lexical_unit_with_formatting_tag);
+    add_test("[LexicalUnitParser] parse lexical unit with formatting tags",  test_parse_lexical_unit_with_formatting_tags);
   }
   
   public void test_parse_raw_text() {
@@ -91,6 +93,30 @@ public class LexicalUnitParserTests : TestCase {
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
+    assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_with_formatting_tag() {
+    const string input = "<BIG>xxxx</BIG>";
+    const string expected = "xxxx";
+
+    var parser = new Englily.LexicalUnitParser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    message(lexical_unit);
+    assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_with_formatting_tags() {
+    const string input = "<BIG><B>xxxx</B></BIG>";
+    const string expected = "xxxx";
+
+    var parser = new Englily.LexicalUnitParser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    message(lexical_unit);
     assert(expected == lexical_unit);
   }
   
