@@ -19,6 +19,7 @@
  */
 
 using Gydict;
+using Gee;
 
 namespace Englily {
 
@@ -122,19 +123,83 @@ namespace Englily {
 
   public class TagStateParser : BaseState
   {
-    public TagStateParser(LexicalUnitParser parser)
-    {
-      base(Tag, parser);
+    public TagStateParser(LexicalUnitParser parser) {
+      base(State.Tag, parser);
     }
 
-    public override void parse()
-    {
-      unichar c = iterator.current;
-      while(iterator.next() && c != '>')
-      {
+    public override void parse() {
+      /*unichar c = iterator.current;
+      while(iterator.next() && c != '>') {
         c = iterator.current;
+      }*/
+
+      var tag = create_tag();
+      this.parser.current_state = State.Text;
+    }
+
+    private Tag create_tag() {
+      var tag = Tag();   
+      iterator.next(); // move iter behind '<'
+      skip_white_space();
+      tag.is_closed = is_closed();
+      skip_white_space();
+      extract_tag_info(tag);
+      return tag;
+    }
+
+    private void skip_white_space() {
+      while (iterator.current == ' ' || iterator.current == '\t') {
+        iterator.next();
       }
-      this.parser.current_state = Text;
+    }
+
+    private bool is_closed() {
+      bool result = false;
+
+      if (iterator.current == '/') {
+        result = true;
+        iterator.next();
+      }
+      return result;
+    }
+
+    private void extract_tag_info (Tag tag) {
+      var builder = new StringBuilder();
+
+      while (iterator.current != '>' || iterator.current.isspace()) {
+        builder.append_unichar(iterator.current);
+        iterator.next();
+      }
+      tag.name =  builder.str;
+      skip_white_space();
+      if (iterator.current == '>') {
+        iterator.next();
+        return;
+      }
+
+      assert_not_reached();
+    }
+
+    private struct Tag {
+      public string name { get; set; }
+      public HashMap<string,string> args;
+      public bool is_closed {get; set; }
+
+      public string get(string key) {
+        if (args == null) {
+          args = new HashMap<string, string>();
+        }
+
+        return args[key];
+      }
+
+      public void set(string key, string value) {
+        if (args == null) {
+          args = new HashMap<string, string>();
+        }
+
+        args[key] = value;
+      }
     }
   }
 }

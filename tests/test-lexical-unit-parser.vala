@@ -30,6 +30,7 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit as unknown symbol", test_parse_lexical_unit_as_unknown_symbol);
     add_test("[LexicalUnitParser] parse lexical unit with a formatting tag", test_parse_lexical_unit_with_formatting_tag);
     add_test("[LexicalUnitParser] parse lexical unit with formatting tags",  test_parse_lexical_unit_with_formatting_tags);
+    add_test("[LexicalUnitParser] parse lexical unit as text and tags interspersed with space",test_parse_lexical_unit_text_and_tags_interspersed_with_spaces);
   }
   
   public void test_parse_raw_text() {
@@ -110,6 +111,18 @@ public class LexicalUnitParserTests : TestCase {
 
   public void test_parse_lexical_unit_with_formatting_tags() {
     const string input = "<BIG><B>xxxx</B></BIG>";
+    const string expected = "xxxx";
+
+    var parser = new Englily.LexicalUnitParser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    message(lexical_unit);
+    assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_text_and_tags_interspersed_with_spaces() {
+    const string input = "< BIG >< B >xxxx< / B >< / BIG>";
     const string expected = "xxxx";
 
     var parser = new Englily.LexicalUnitParser(input); 
