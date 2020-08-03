@@ -128,11 +128,6 @@ namespace Englily {
     }
 
     public override void parse() {
-      /*unichar c = iterator.current;
-      while(iterator.next() && c != '>') {
-        c = iterator.current;
-      }*/
-
       var tag = create_tag();
       this.parser.current_state = State.Text;
     }
@@ -166,18 +161,69 @@ namespace Englily {
     private void extract_tag_info (Tag tag) {
       var builder = new StringBuilder();
 
-      while (iterator.current != '>' || iterator.current.isspace()) {
+      while (iterator.current != '>' && iterator.current != ' ') {
         builder.append_unichar(iterator.current);
         iterator.next();
       }
-      tag.name =  builder.str;
+      tag.name = builder.str;
       skip_white_space();
       if (iterator.current == '>') {
         iterator.next();
         return;
       }
 
-      assert_not_reached();
+      extract_tag_attrs(tag);
+    }
+
+    private void extract_tag_attrs(Tag tag) {
+
+      var attr_name = extract_attr_name();
+      skip_white_space();
+      iterator.next(); // move iter behind '='
+      skip_white_space();
+      var attr_value = extract_attr_value();
+
+      tag[attr_name] = attr_value;
+
+      skip_white_space();
+      if (iterator.current == '>') {
+        iterator.next();
+        return;
+      }
+
+      extract_tag_attrs(tag);
+    }
+
+    private string extract_attr_name() {
+      var attr_name = new StringBuilder();
+
+      while (iterator.current != '=') {
+
+        if (iterator.current.isspace()) {
+          iterator.next();
+          continue;
+        }
+
+        attr_name.append_unichar(iterator.current);
+        iterator.next();
+      }
+      return attr_name.str;
+    }
+
+    private string extract_attr_value() {
+      var attr_value = new StringBuilder();
+
+      while (iterator.current != '>' && iterator.current != ' ') {
+        
+        if (iterator.current != '"') {
+          iterator.next();
+          continue;
+        }
+
+        attr_value.append_unichar(iterator.current);
+        iterator.next();
+      }
+      return attr_value.str;
     }
 
     private struct Tag {
