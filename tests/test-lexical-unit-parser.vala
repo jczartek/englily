@@ -36,7 +36,7 @@ public class LexicalUnitParserTests : TestCase {
   }
   
   public void test_parse_raw_text() {
-    var parser = new Englily.LexicalUnitParser("raw text");
+    var parser = new Englily.LexicalUnit.Parser("raw text");
     parser.parse();
     
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -46,7 +46,7 @@ public class LexicalUnitParserTests : TestCase {
 
   public void test_parse_lexical_unit_as_symbol() {
     const string input = "&dollar;";
-    var parser = new Englily.LexicalUnitParser(input);
+    var parser = new Englily.LexicalUnit.Parser(input);
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -57,7 +57,7 @@ public class LexicalUnitParserTests : TestCase {
   public void test_parse_lexical_unit_as_symbols() {
     const string input = "&##9553;&oboczn;&##1100;&##1098;&s172;&ytilde;";
     const string expected = "║║ьъ←ỹ";
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -69,7 +69,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "xxx&##9553;&oboczn;&##1100;&##1098;&s172;&ytilde;xxx";
     const string expected = "xxx║║ьъ←ỹxxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -81,7 +81,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "xxx&##9553;xyz&oboczn;xyz&##1100;xyz&##1098;xyz&s172;xyz&ytilde;xxx";
     const string expected = "xxx║xyz║xyzьxyzъxyz←xyzỹxxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -92,7 +92,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "&unknownSymbol;";
     const string expected = "<unknown>";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -103,7 +103,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "<BIG>xxxx</BIG>";
     const string expected = "xxxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -115,7 +115,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "<BIG><B>xxxx</B></BIG>";
     const string expected = "xxxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -126,7 +126,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input = "< BIG >< B >xxxx< / B >< / BIG>";
     const string expected = "xxxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -137,7 +137,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input ="<A HREF=\"12\">xxx</A>";
     const string expected = "xxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
@@ -148,7 +148,7 @@ public class LexicalUnitParserTests : TestCase {
     const string input ="<ICON ID=\"0\" HREF=\"12\">xxx</ICON>";
     const string expected = "xxx";
 
-    var parser = new Englily.LexicalUnitParser(input); 
+    var parser = new Englily.LexicalUnit.Parser(input); 
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();

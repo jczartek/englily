@@ -14,6 +14,17 @@ resources = gnome.compile_resources(
   'englily.gresource.xml',
 )
 
+lexical_unit_parser_sources = [
+  './lexical-unit/englily-enum-state.vala',
+  './lexical-unit/englily-base-state.vala',
+  './lexical-unit/englily-end-state-parser.vala',
+  './lexical-unit/englily-istate.vala',
+  './lexical-unit/englily-symbol-state-parser.vala',
+  './lexical-unit/englily-tag-state-parser.vala',
+  './lexical-unit/englily-text-state-parser.vala',
+  './lexical-unit/englily-parser.vala'
+]
+
 sources = [
   'englily.vala',
   'englily-app.vala',
@@ -25,10 +36,8 @@ sources = [
   'englily-helper.vala',
   'englily-string-iterator.vala',
   'englily-list-parser.vala',
-  'englily-lexical-unit-parser.vala',
-  'englily-lexical-unit-parser-states.vala',
 ]
-
+sources += lexical_unit_parser_sources
 sources += resources
 
 lib = shared_library('englily', sources,
@@ -39,11 +48,9 @@ lib = shared_library('englily', sources,
 
 static_lib_sources = [
   'englily-string-iterator.vala',
-  'englily-lexical-unit-parser.vala',
-  'englily-lexical-unit-parser-states.vala',
   'englily-helper.vala'
 ]
-
+static_lib_sources += lexical_unit_parser_sources
 
 static_lib = static_library('englily-static', static_lib_sources,
   dependencies: deps,
