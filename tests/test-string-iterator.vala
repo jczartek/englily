@@ -24,11 +24,50 @@ public class TestStringIterator : TestCase {
         base("TestStringIteratorTest");
 
         add_test("[StringIterator]: empty string iterator can't move", test_empty_string_iterator);
+        add_test("[StringIterator]: move string iterator to next char", test_move_string_iterator_next_char);
+        add_test("[StringIterator]: reset string iterator", test_reset_string_iterator);
     }
 
     public void test_empty_string_iterator() {
         var iterator = new Englily.StringIterator();
 
         assert(iterator.next() == false);
+    }
+
+    public void test_move_string_iterator_next_char() {
+        var iterator = new Englily.StringIterator("xyz");
+
+        assert(iterator.next());
+        assert(iterator.current == 'x');
+        assert(iterator.next());
+        assert(iterator.current == 'y');
+        assert(iterator.next());
+        assert(iterator.current == 'z');
+        assert(iterator.next() == false);
+        assert(iterator.current == 'z');
+    }
+
+    public void test_reset_string_iterator() {
+        var iterator = new Englily.StringIterator("xyz");
+
+        assert(iterator.next());
+        assert(iterator.current == 'x');
+        assert(iterator.next());
+        assert(iterator.current == 'y');
+        assert(iterator.next());
+        assert(iterator.current == 'z');
+        assert(iterator.next() == false);
+        assert(iterator.current == 'z');
+
+        iterator.reset();
+
+        assert(iterator.next());
+        assert(iterator.current == 'x');
+        assert(iterator.next());
+        assert(iterator.current == 'y');
+        assert(iterator.next());
+        assert(iterator.current == 'z');
+        assert(iterator.next() == false);
+        assert(iterator.current == 'z');
     }
 }

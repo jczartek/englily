@@ -19,17 +19,16 @@
  */
 
 namespace Englily {
-  public class StringIterator
-  {
+  public class StringIterator {
     private unichar _current;
-    public unichar current { get { return _current; } }
+    public unichar current { 
+      get { return _current; } 
+    }
 
     private string _str;
-    public string str
-    {
+    public string str {
       private get { return _str; }
-      set
-      {
+      set {
         _str = value;
         reset();
       }
@@ -37,8 +36,7 @@ namespace Englily {
 
     private int iter = 0;
 
-    public StringIterator.with_string(string str)
-    {
+    public StringIterator.with_string(string str) {
       this.str = str;
     }
 
@@ -46,13 +44,11 @@ namespace Englily {
       this.str = str;
     }
 
-    public bool next()
-    {
+    public bool next() {
       return str.get_next_char(ref iter, out _current);
     }
 
-    public void reset()
-    {
+    public void reset() {
       iter = 0;
       _current = 0;
     }
