@@ -1,11 +1,15 @@
 test_sources = [
-    'test-main.vala',
-    'testcase.vala',
-    'test-lexical-unit-parser.vala',
+  'test-main.vala',
+  'testcase.vala',
 ]
 
-englily_tests = executable('englily-tests', 
-         test_sources,
+test_lexical_unit_parser_sources = [
+    'test-lexical-unit-parser.vala'
+]
+test_lexical_unit_parser_sources += test_sources
+
+test_lexical_unit_parser = executable('test-lexical-parser-unit', 
+         test_lexical_unit_parser_sources,
          dependencies: [
              lib_dep
              ],
@@ -15,4 +19,4 @@ englily_tests = executable('englily-tests',
   ],
 )
 
-test('englily-test', englily_tests)
+test('test-lexical-parser-unit', test_lexical_unit_parser)
