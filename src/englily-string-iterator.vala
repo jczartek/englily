@@ -42,6 +42,10 @@ namespace Englily {
       this.str = str;
     }
 
+    public StringIterator(string str = "") {
+      this.str = str;
+    }
+
     public bool next()
     {
       return str.get_next_char(ref iter, out _current);

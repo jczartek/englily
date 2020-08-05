@@ -20,6 +20,12 @@
 
 void main (string[] args) {
   Test.init (ref args);
-  TestSuite.get_root ().add_suite (new LexicalUnitParserTests ().get_suite ());
+
+  #if TEST_LEXICAL_UNIT_PARSER
+  TestSuite.get_root().add_suite(new LexicalUnitParserTests().get_suite());
+  #elif TEST_STRING_ITERATOR
+  TestSuite.get_root().add_suite(new TestStringIterator().get_suite());
+  #endif
+
 	Test.run ();
 }
