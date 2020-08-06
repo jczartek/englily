@@ -17,7 +17,7 @@ test_lexical_unit_parser = executable('test-lexical-parser-unit',
     'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
     'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
   ],
-   cpp_args : '-DTEST_LEXICAL_UNIT_PARSER',
+   vala_args: '--define=TEST_LEXICAL_UNIT_PARSER',
 )
 
 test('test-lexical-parser-unit', test_lexical_unit_parser)
@@ -36,7 +36,7 @@ test_string_iterator = executable('test-string-iterator',
     'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
     'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
   ],
-  cpp_args : '-DTEST_STRING_ITERATOR',
+  vala_args: '--define=TEST_STRING_ITERATOR',
 )
 
 test('test-string-iterator', test_string_iterator)
