@@ -52,5 +52,12 @@ namespace Englily {
       iter = 0;
       _current = 0;
     }
+
+    public void skip_white_spaces() {
+      
+      while(current.isspace()) {
+        next();
+      }
+    }
   }
 }

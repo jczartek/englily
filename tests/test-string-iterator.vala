@@ -26,6 +26,7 @@ public class TestStringIterator : TestCase {
         add_test("[StringIterator]: empty string iterator can't move", test_empty_string_iterator);
         add_test("[StringIterator]: move string iterator to next char", test_move_string_iterator_next_char);
         add_test("[StringIterator]: reset string iterator", test_reset_string_iterator);
+        add_test("[StringIterator]: skip white spaces", test_skip_white_spaces);
     }
 
     public void test_empty_string_iterator() {
@@ -44,7 +45,6 @@ public class TestStringIterator : TestCase {
         assert(iterator.next());
         assert(iterator.current == 'z');
         assert(iterator.next() == false);
-        assert(iterator.current == 'z');
     }
 
     public void test_reset_string_iterator() {
@@ -57,7 +57,6 @@ public class TestStringIterator : TestCase {
         assert(iterator.next());
         assert(iterator.current == 'z');
         assert(iterator.next() == false);
-        assert(iterator.current == 'z');
 
         iterator.reset();
 
@@ -68,6 +67,21 @@ public class TestStringIterator : TestCase {
         assert(iterator.next());
         assert(iterator.current == 'z');
         assert(iterator.next() == false);
+    }
+
+    public void test_skip_white_spaces() {
+        var iterator = new Englily.StringIterator("   x  y   z");
+
+        iterator.next();
+        
+        iterator.skip_white_spaces();
+        assert(iterator.current == 'x');
+        assert(iterator.next());
+        iterator.skip_white_spaces();
+        assert(iterator.current == 'y');
+        assert(iterator.next());
+        iterator.skip_white_spaces();
         assert(iterator.current == 'z');
+        assert(iterator.next() == false);
     }
 }
