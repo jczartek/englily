@@ -35,17 +35,11 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
   private Tag create_tag() {
     var tag = Tag();
     iterator.next(); // move iter behind '<'
-    skip_white_space();
+    iterator.skip_white_spaces();
     tag.is_closed = is_closed();
-    skip_white_space();
+    iterator.skip_white_spaces();
     extract_tag_info(tag);
     return tag;
-  }
-  
-  private void skip_white_space() {
-    while (iterator.current == ' ' || iterator.current == '\t') {
-      iterator.next();
-    }
   }
   
   private bool is_closed() {
@@ -66,7 +60,7 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       iterator.next();
     }
     tag.name = builder.str;
-    skip_white_space();
+    iterator.skip_white_spaces();
     if (iterator.current == '>') {
       iterator.next();
       return;
@@ -78,14 +72,14 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
   private void extract_tag_attrs(Tag tag) {
     
     var attr_name = extract_attr_name();
-    skip_white_space();
+    iterator.skip_white_spaces();
     iterator.next(); // move iter behind '='
-    skip_white_space();
+    iterator.skip_white_spaces();
     var attr_value = extract_attr_value();
     
     tag[attr_name] = attr_value;
     
-    skip_white_space();
+    iterator.skip_white_spaces();
     if (iterator.current == '>') {
       iterator.next();
       return;
