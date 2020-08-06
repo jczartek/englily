@@ -59,5 +59,9 @@ namespace Englily {
         next();
       }
     }
+
+    public bool next_if_char(unichar c) {
+      return current == c && next();
+    }
   }
 }

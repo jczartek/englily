@@ -27,6 +27,7 @@ public class TestStringIterator : TestCase {
         add_test("[StringIterator]: move string iterator to next char", test_move_string_iterator_next_char);
         add_test("[StringIterator]: reset string iterator", test_reset_string_iterator);
         add_test("[StringIterator]: skip white spaces", test_skip_white_spaces);
+        add_test("[StringIterator]: move iterator if char", test_move_string_iterator_if_char);
     }
 
     public void test_empty_string_iterator() {
@@ -83,5 +84,19 @@ public class TestStringIterator : TestCase {
         iterator.skip_white_spaces();
         assert(iterator.current == 'z');
         assert(iterator.next() == false);
+    }
+
+    public void test_move_string_iterator_if_char() {
+        var iterator = new Englily.StringIterator("xyz");
+        iterator.next();
+
+        assert(iterator.current == 'x');
+        assert(iterator.next_if_char('x'));
+        assert(iterator.current == 'y');
+        assert_false(iterator.next_if_char('q'));
+        assert(iterator.current == 'y');
+        assert_true(iterator.next_if_char('y'));
+        assert(iterator.current == 'z');
+        assert_false(iterator.next_if_char('z'));
     }
 }
