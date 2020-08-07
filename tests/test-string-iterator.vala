@@ -34,6 +34,7 @@ public class TestStringIterator : TestCase {
         var iterator = new Englily.StringIterator();
 
         assert(iterator.next() == false);
+        assert_true(iterator.end);
     }
 
     public void test_move_string_iterator_next_char() {
@@ -45,7 +46,8 @@ public class TestStringIterator : TestCase {
         assert(iterator.current == 'y');
         assert(iterator.next());
         assert(iterator.current == 'z');
-        assert(iterator.next() == false);
+        assert_false(iterator.next());
+        assert_true(iterator.end);
     }
 
     public void test_reset_string_iterator() {
@@ -67,7 +69,8 @@ public class TestStringIterator : TestCase {
         assert(iterator.current == 'y');
         assert(iterator.next());
         assert(iterator.current == 'z');
-        assert(iterator.next() == false);
+        assert_false(iterator.next());
+        assert_true(iterator.end);
     }
 
     public void test_skip_white_spaces() {
@@ -83,7 +86,8 @@ public class TestStringIterator : TestCase {
         assert(iterator.next());
         iterator.skip_white_spaces();
         assert(iterator.current == 'z');
-        assert(iterator.next() == false);
+        assert_false(iterator.next());
+        assert_true(iterator.end);
     }
 
     public void test_move_string_iterator_if_char() {
@@ -98,5 +102,6 @@ public class TestStringIterator : TestCase {
         assert_true(iterator.next_if_char('y'));
         assert(iterator.current == 'z');
         assert_false(iterator.next_if_char('z'));
+        assert_true(iterator.end);
     }
 }

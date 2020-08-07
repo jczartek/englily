@@ -61,11 +61,13 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
     }
     tag.name = builder.str;
     iterator.skip_white_spaces();
-    if (iterator.current == '>') {
-      iterator.next();
-      return;
-    }
     
+    if (iterator.next_if_char('>') || iterator.end) {
+      if (iterator.end) {
+        this.parser.current_state = End;
+      }
+      return;
+    } 
     extract_tag_attrs(tag);
   }
   

@@ -32,7 +32,7 @@ public class Englily.LexicalUnit.Parser : Object
   public Parser(string unparse_lexical_unit) requires(unparse_lexical_unit != "")
   {
     scheme = new FormatScheme();
-    iterator = new StringIterator.with_string(unparse_lexical_unit);
+    iterator = new StringIterator(unparse_lexical_unit);
     iterator.next();
     current_state = ParserState.Text;
     

@@ -20,12 +20,14 @@
 
 namespace Englily {
   public class StringIterator {
-    private unichar _current;
+    private unichar _current = 0;
+    private string _str;
+    private int _iter = 0;
+    
     public unichar current { 
       get { return _current; } 
     }
 
-    private string _str;
     public string str {
       private get { return _str; }
       set {
@@ -34,23 +36,22 @@ namespace Englily {
       }
     }
 
-    private int iter = 0;
-
-    public StringIterator.with_string(string str) {
-      this.str = str;
-    }
+    public bool end { get; set; }
 
     public StringIterator(string str = "") {
       this.str = str;
     }
 
     public bool next() {
-      return str.get_next_char(ref iter, out _current);
+      bool result = str.get_next_char(ref _iter, out _current);
+      end = !result;
+      return result;
     }
 
     public void reset() {
-      iter = 0;
+      _iter = 0;
       _current = 0;
+      end = false;
     }
 
     public void skip_white_spaces() {
@@ -61,7 +62,10 @@ namespace Englily {
     }
 
     public bool next_if_char(unichar c) {
-      return current == c && next();
+      if (c == current) {
+        return next();
+      }
+      return false;
     }
   }
 }
