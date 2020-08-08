@@ -22,18 +22,26 @@ using Gee;
 using Gydict;
 
 public class Englily.LexicalUnit.TagStateParser : BaseState {
-  
+
   public TagStateParser(Parser parser) {
     base(parser);
   }
   
   public override void parse() {
     var tag = create_tag();
+
+    switch(tag.name) {
+      case "HANGINGPAR":
+        parse_hangingpar_tag();
+        break;
+      default:
+        break;
+    }
     this.parser.current_state = ParserState.Text;
   }
   
   private Tag create_tag() {
-    var tag = Tag();
+    var tag = new Tag();
     iterator.next(); // move iter behind '<'
     iterator.skip_white_spaces();
     tag.is_closed = is_closed();
@@ -60,6 +68,7 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       iterator.next();
     }
     tag.name = builder.str;
+    message(tag.name);
     iterator.skip_white_spaces();
     
     if (iterator.next_if_char('>') || iterator.end) {
@@ -121,8 +130,12 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
     }
     return attr_value.str;
   }
+
+  private void parse_hangingpar_tag() {
+    scheme.append_unichar('\t');
+  }
   
-  private struct Tag {
+  private class Tag {
     public string name { get; set; }
     public HashMap<string,string> args;
     public bool is_closed {get; set; }
