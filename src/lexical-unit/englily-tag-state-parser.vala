@@ -34,6 +34,9 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       case "HANGINGPAR":
         parse_hangingpar_tag();
         break;
+      case "IMG":
+        parse_img_tag(tag);
+        break;
       default:
         break;
     }
@@ -68,7 +71,6 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       iterator.next();
     }
     tag.name = builder.str;
-    message(tag.name);
     iterator.skip_white_spaces();
     
     if (iterator.next_if_char('>') || iterator.end) {
@@ -87,7 +89,6 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
     iterator.next(); // move iter behind '='
     iterator.skip_white_spaces();
     var attr_value = extract_attr_value();
-    
     tag[attr_name] = attr_value;
     
     iterator.skip_white_spaces();
@@ -120,7 +121,7 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
     
     while (iterator.current != '>' && iterator.current != ' ') {
       
-      if (iterator.current != '"') {
+      if (iterator.current == '"') {
         iterator.next();
         continue;
       }
@@ -133,6 +134,21 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
 
   private void parse_hangingpar_tag() {
     scheme.append_unichar('\t');
+  }
+
+  private void parse_img_tag(Tag tag) {
+    var attr_value = tag["SRC"];
+    
+    if (attr_value.has_prefix("idioms")) {
+      scheme.append_text("IDIOM");
+    } else if (attr_value.has_prefix("rzym")) {
+      var start = 4;
+      var end = attr_value.index_of_char('.');
+      var arabic = attr_value[start:end];
+      scheme.append_text(Helper.arabic_to_roman(arabic.to_int()));
+    } else {
+      assert_not_reached();
+    }
   }
   
   private class Tag {

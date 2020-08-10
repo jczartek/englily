@@ -34,6 +34,7 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit as tag with attr", test_parse_lexical_unit_as_tag_with_attr);
     add_test("[LexicalUnitParser] parse lexical unit as tag with attrs", test_parse_lexical_unit_as_tag_with_attrs);
     add_test("[LexicalUnitParser] parse lexical unit with hangingpar", test_parse_lexical_unit_with_hangingpar_tag);
+    add_test("[LexicalUnitParser] parse lexical unit with img tag", test_parse_lexical_unit_with_img_tag);
   }
   
   public void test_parse_raw_text() {
@@ -163,7 +164,17 @@ public class LexicalUnitParserTests : TestCase {
     parser.parse();
 
     var lexical_unit = parser.scheme.get_lexical_unit();
-    message(lexical_unit);
+    assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_with_img_tag() {
+    const string input ="<IMG SRC=\"rzym2.jpg\"> xxxxxx <IMG SRC=\"idioms.JPG\">";
+    const string expected = "II xxxxxx IDIOM";
+
+    var parser = new Englily.LexicalUnit.Parser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
     assert(expected == lexical_unit);
   }
   
