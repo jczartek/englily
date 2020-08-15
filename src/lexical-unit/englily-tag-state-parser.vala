@@ -37,6 +37,9 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       case "IMG":
         parse_img_tag(tag);
         break;
+      case "P":
+        parse_p_tag(tag);
+        break;
       default:
         break;
     }
@@ -145,9 +148,15 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
       var start = 4;
       var end = attr_value.index_of_char('.');
       var arabic = attr_value[start:end];
-      scheme.append_text(Helper.arabic_to_roman(arabic.to_int()));
+      scheme.append_text(Helper.arabic_to_roman(int.parse(arabic)));
     } else {
       assert_not_reached();
+    }
+  }
+
+  private void parse_p_tag(Tag tag) {
+    if (!tag.is_closed) {
+      scheme.append_text("\n");
     }
   }
   

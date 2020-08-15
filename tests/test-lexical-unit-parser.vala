@@ -35,6 +35,7 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit as tag with attrs", test_parse_lexical_unit_as_tag_with_attrs);
     add_test("[LexicalUnitParser] parse lexical unit with hangingpar", test_parse_lexical_unit_with_hangingpar_tag);
     add_test("[LexicalUnitParser] parse lexical unit with img tag", test_parse_lexical_unit_with_img_tag);
+    add_test("[LexicalUnitParser] parse lexical unit with p tag", test_parse_lexical_unit_with_p_tag);
   }
   
   public void test_parse_raw_text() {
@@ -177,5 +178,15 @@ public class LexicalUnitParserTests : TestCase {
     var lexical_unit = parser.scheme.get_lexical_unit();
     assert(expected == lexical_unit);
   }
-  
+
+  public void test_parse_lexical_unit_with_p_tag() {
+    const string input ="<P></P>";
+    const string expected = "\n";
+
+    var parser = new Englily.LexicalUnit.Parser(input); 
+    parser.parse();
+
+    var lexical_unit = parser.scheme.get_lexical_unit();
+    assert(expected == lexical_unit);
+  }
 }
