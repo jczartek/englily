@@ -36,6 +36,7 @@ public class LexicalUnitParserTests : TestCase {
     add_test("[LexicalUnitParser] parse lexical unit with hangingpar", test_parse_lexical_unit_with_hangingpar_tag);
     add_test("[LexicalUnitParser] parse lexical unit with img tag", test_parse_lexical_unit_with_img_tag);
     add_test("[LexicalUnitParser] parse lexical unit with p tag", test_parse_lexical_unit_with_p_tag);
+    add_test("[LexicalUnitParser] parse lexical unit using formatting tags", test_parse_lexical_unit_using_formatting_tags);
   }
   
   public void test_parse_raw_text() {
@@ -188,5 +189,18 @@ public class LexicalUnitParserTests : TestCase {
 
     var lexical_unit = parser.scheme.get_lexical_unit();
     assert(expected == lexical_unit);
+  }
+
+  public void test_parse_lexical_unit_using_formatting_tags() {
+    const string input = "<I>aa</I>";
+
+    var parser = new Englily.LexicalUnit.Parser(input);
+    parser.parse();
+
+    var iterator = parser.scheme.get_attrs().get_iterator();
+    var attr = iterator.get(Gydict.TextAttrType.STYLE);
+    assert(Gydict.TextAttrType.STYLE == attr.get_attr_type());
+    assert(attr.get_start_index() == 0);
+    assert(attr.get_end_index() == 2);
   }
 }

@@ -23,8 +23,11 @@ using Gydict;
 
 public class Englily.LexicalUnit.TagStateParser : BaseState {
 
+  private ArrayList<TextAttribute> stack;
   public TagStateParser(Parser parser) {
     base(parser);
+
+    stack = new ArrayList<TextAttribute>();
   }
   
   public override void parse() {
@@ -39,6 +42,9 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
         break;
       case "P":
         parse_p_tag(tag);
+        break;
+      case "I":
+        parse_formatting_tag(tag, () => new TextAttribute.style_new(Pango.Style.ITALIC));
         break;
       default:
         break;
@@ -157,6 +163,35 @@ public class Englily.LexicalUnit.TagStateParser : BaseState {
   private void parse_p_tag(Tag tag) {
     if (!tag.is_closed) {
       scheme.append_text("\n");
+    }
+  }
+
+  /*private void parse_i_tag(Tag tag) {
+    TextAttribute attr = null;
+    if (tag.is_closed) {
+      attr = stack.remove_at(stack.size - 1);
+      attr.set_end_index((uint)scheme.length_lexical_unit());
+      scheme.add_text_attr(attr);
+    }
+    else {
+      attr = new TextAttribute.style_new(Pango.Style.ITALIC);
+      attr.set_start_index((uint)scheme.length_lexical_unit());
+      stack.add(attr);
+    }
+  }*/
+
+  private delegate TextAttribute CreateAttrFunc();
+  private void parse_formatting_tag (Tag tag, CreateAttrFunc create) {
+    TextAttribute attr = null;
+    if (tag.is_closed) {
+      attr = stack.remove_at(stack.size - 1);
+      attr.set_end_index((uint)scheme.length_lexical_unit());
+      scheme.add_text_attr(attr);
+    }
+    else {
+      attr = create();
+      attr.set_start_index((uint)scheme.length_lexical_unit());
+      stack.add(attr);
     }
   }
   

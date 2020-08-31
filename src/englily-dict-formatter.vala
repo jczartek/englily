@@ -25,9 +25,9 @@ namespace Englily {
   class DictFormatterImpl: Object, DictFormatter {
 
     public FormatScheme? format (string text_to_format) {
-      var scheme = new FormatScheme();
-      scheme.append_text(text_to_format);
-      return scheme;
+      var parser = new LexicalUnit.Parser(text_to_format);
+      parser.parse();
+      return parser.scheme;
     }
 
     public static DictFormatter create() {
